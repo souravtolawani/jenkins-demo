@@ -1,0 +1,67 @@
+<!-- --------------------------------------------- -->
+<!-- this is index.html file in the --->
+
+<!--give me filename as index.html-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>My Online Shop</h1>
+  <a href="index.html">Home</a> |
+  <a href="cart.html">Cart</a>
+  <hr>
+
+  <h2>Products</h2>
+  <div class="box">
+    <h3>Mobile Phone</h3>
+    <p>Price: Rs. 15000</p>
+    <button>Add to Cart</button>
+  </div>
+  <div class="box">
+    <h3>Headphones</h3>
+    <p>Price: Rs. 2000</p>
+    <button>Add to Cart</button>
+  </div>
+  <div class="box">
+    <h3>Laptop</h3>
+    <p>Price: Rs. 45000</p>
+    <button>Add to Cart</button>
+  </div>
+</body>
+</html>
+
+
+<!-- this file name is cart.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>My Online Shop</h1>
+  <a href="index.html">Home</a> |
+  <a href="cart.html">Cart</a>
+  <hr>
+
+  <h2>Your Cart</h2>
+  <table border="1" cellpadding="8">
+    <tr><th>Item</th><th>Price</th></tr>
+    <tr><td>Mobile Phone</td><td>Rs. 15000</td></tr>
+    <tr><td>Headphones</td><td>Rs. 2000</td></tr>
+    <tr><th>Total</th><th>Rs. 17000</th></tr>
+  </table>
+  <br>
+  <button>Checkout</button>
+</body>
+</html>
+
+
+<!-- This file name is style.css -->
+body { font-family: Arial; margin: 30px; background: #f2f2f2; }
+h1 { color: darkblue; }
+.box { background: white; border: 1px solid gray; padding: 10px; margin: 10px; width: 200px; display: inline-block; }
+button { background: orange; border: none; padding: 8px; }
