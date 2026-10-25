@@ -65,3 +65,25 @@ body { font-family: Arial; margin: 30px; background: #f2f2f2; }
 h1 { color: darkblue; }
 .box { background: white; border: 1px solid gray; padding: 10px; margin: 10px; width: 200px; display: inline-block; }
 button { background: orange; border: none; padding: 8px; }
+
+
+
+Dockerfile
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+
+
+All the command :
+docker build -t shop-app .
+docker run -d -p 8080:80 --name shop shop-app
+docker ps
+http://localhost:8080/
+
+to change the file name :
+use this command :
+ren Dockerfile.txt Dockerfile
+ren index.txt index.html
+ren style.txt style.css
+ren cart.txt cart.html
+
+
