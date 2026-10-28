@@ -1,0 +1,82 @@
+# 1. Update Ubuntu and install Ansible
+sudo apt update
+sudo apt upgrade -y
+sudo apt install ansible -y
+
+# 2. Verify Ansible installation
+ansible --version
+
+# 3. Create project directory
+mkdir -p ~/ansible-practical
+cd ~/ansible-practical
+
+# 4. Create inventory file
+nano inventory
+
+# Paste inside inventory:
+# [local]
+# localhost ansible_connection=local
+# Save: Ctrl+O, Enter, Ctrl+X
+
+# 5. Test localhost connectivity
+ansible local -i inventory -m ping
+
+# 6. Create Ansible playbook
+nano playbook.yml
+
+# Paste the following YAML into playbook.yml:
+# ---
+# - name: Install and Configure Nginx on Localhost
+#   hosts: local
+#   become: true
+#
+#   tasks:
+#     - name: Install Nginx
+#       ansible.builtin.apt:
+#         name: nginx
+#         state: present
+#         update_cache: true
+#
+#     - name: Create HTML webpage
+#       ansible.builtin.copy:
+#         dest: /var/www/html/index.html
+#         content: |
+#           <html>
+#           <head>
+#             <title>Ansible Practical</title>
+#           </head>
+#           <body>
+#             <h1>Ansible Practical Successful</h1>
+#             <p>Nginx configured using Ansible.</p>
+#           </body>
+#           </html>
+#         mode: "0644"
+#
+#     - name: Start Nginx service
+#       ansible.builtin.service:
+#         name: nginx
+#         state: started
+#         enabled: true
+#
+# Save: Ctrl+O, Enter, Ctrl+X
+
+# 7. Check playbook syntax
+ansible-playbook -i inventory playbook.yml --syntax-check
+
+# 8. Execute the playbook
+ansible-playbook -i inventory playbook.yml -K
+
+# 9. Check Nginx service status
+sudo service nginx status
+
+# 10. Install curl for webpage testing
+sudo apt install curl -y
+
+# 11. Verify webpage response
+curl http://localhost
+
+# 12. Run playbook again to demonstrate idempotency
+ansible-playbook -i inventory playbook.yml -K
+
+# 13. Verify project files
+ls -l
