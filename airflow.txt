@@ -1,0 +1,107 @@
+# ==========================================
+# EXPERIMENT 9: INSTALL APACHE AIRFLOW
+# Create a DAG to display date and time
+# Every Wednesday at 9:30 AM
+# ==========================================
+
+# STEP 1: Update Ubuntu
+sudo apt update
+
+# STEP 2: Install Python and required packages
+sudo apt install python3 python3-venv python3-pip -y
+
+# STEP 3: Create project directory
+mkdir -p ~/airflow-practical
+cd ~/airflow-practical
+
+# STEP 4: Create Python virtual environment
+python3 -m venv .venv
+
+# STEP 5: Activate virtual environment
+source .venv/bin/activate
+
+# STEP 6: Upgrade pip
+python -m pip install --upgrade pip
+
+# STEP 7: Check Python version
+python --version
+
+# STEP 8: Set Airflow configuration
+export AIRFLOW_VERSION=3.1.0
+export PYTHON_VERSION="$(python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+export AIRFLOW_HOME="$HOME/airflow-practical/airflow"
+export AIRFLOW_CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
+
+# STEP 9: Install Apache Airflow
+python -m pip install "apache-airflow==${AIRFLOW_VERSION}" \
+  --constraint "${AIRFLOW_CONSTRAINT_URL}"
+
+# STEP 10: Verify installation
+airflow version
+
+# STEP 11: Create Airflow home and DAG directory
+mkdir -p "$AIRFLOW_HOME/dags"
+
+# STEP 12: Create the DAG Python file
+nano "$AIRFLOW_HOME/dags/date_time_dag.py"
+
+# ==========================================
+# PASTE THE FOLLOWING PYTHON CODE IN NANO
+# Save using Ctrl+O, Enter, Ctrl+X
+# ==========================================
+
+# from datetime import datetime
+# import pendulum
+#
+# from airflow.sdk import DAG, task
+#
+# with DAG(
+#     dag_id="date_time_dag",
+#     description="Display date and time every Wednesday at 9:30 AM",
+#     start_date=pendulum.datetime(2026, 1, 1, tz="Asia/Kolkata"),
+#     schedule="30 9 * * 3",
+#     catchup=False,
+# ) as dag:
+#
+#     @task
+#     def display_date_time():
+#         current_time = pendulum.now("Asia/Kolkata")
+#
+#         print("Current Date:", current_time.strftime("%Y-%m-%d"))
+#         print("Current Time:", current_time.strftime("%H:%M:%S"))
+#         print("Day:", current_time.strftime("%A"))
+#
+#     display_date_time()
+
+
+# STEP 13: Check whether the DAG file exists
+ls -l "$AIRFLOW_HOME/dags"
+
+# STEP 14: Check Python syntax
+python -m py_compile "$AIRFLOW_HOME/dags/date_time_dag.py"
+
+# STEP 15: Start Airflow in standalone mode
+airflow standalone
+
+# ==========================================
+# KEEP THIS TERMINAL OPEN
+# Open your Windows browser and visit:
+# http://localhost:8080
+#
+# Log in using the credentials shown in the
+# terminal by Airflow standalone.
+#
+# Find date_time_dag and enable it.
+# Click Trigger DAG to test it immediately.
+# Open the task and view its logs.
+#
+# IMPORTANT:
+# Cron expression "30 9 * * 3" means
+# every Wednesday at 9:30 AM.
+# Time zone: Asia/Kolkata.
+#
+# Manual Trigger runs immediately; it does
+# not wait until Wednesday at 9:30 AM.
+#
+# To stop Airflow, press Ctrl+C.
+# ==========================================
